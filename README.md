@@ -2,13 +2,9 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/shogo82148/fsnotify.svg)](https://pkg.go.dev/github.com/shogo82148/fsnotify) [![Go Report Card](https://goreportcard.com/badge/github.com/shogo82148/fsnotify)](https://goreportcard.com/report/github.com/shogo82148/fsnotify)
 
-## This project is archived.
+fsnotify utilizes [`golang.org/x/sys`](https://pkg.go.dev/golang.org/x/sys) rather than [`syscall`](https://pkg.go.dev/syscall) from the standard library.
 
-[Details](https://github.com/fsnotify/fsnotify/issues/413) of this decision.
-
-## Cross platform
-
-`fsnotify` supports Windows, Linux, BSD and macOS with a common API.
+Cross platform: Windows, Linux, BSD and macOS.
 
 | Adapter               | OS                               | Status                                                                                                                          |
 | --------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -24,8 +20,6 @@
 \* Android and iOS are untested.
 
 Please see [the documentation](https://pkg.go.dev/github.com/shogo82148/fsnotify) and consult the [FAQ](#faq) for usage information.
-
-NOTE: fsnotify utilizes [`golang.org/x/sys`](https://pkg.go.dev/golang.org/x/sys) rather than [`syscall`](https://pkg.go.dev/syscall) from the standard library.
 
 ## API stability
 
