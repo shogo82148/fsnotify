@@ -66,4 +66,5 @@ func (e Event) String() string {
 // Common errors that can be reported by a watcher
 var (
 	ErrEventOverflow = errors.New("fsnotify queue overflow")
+	ErrUnsupported   = errors.New("fsnotify is unsupported")
 )
