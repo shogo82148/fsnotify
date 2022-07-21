@@ -51,10 +51,13 @@ func NewWatcher() (*Watcher, error) {
 
 // Close removes all watches and closes the events channel.
 func (w *Watcher) Close() error {
+	w.mu.Lock()
 	if w.isClosed {
+		w.mu.Unlock()
 		return nil
 	}
 	w.isClosed = true
+	w.mu.Unlock()
 
 	// Send "quit" message to the reader goroutine
 	ch := make(chan error)
@@ -68,6 +71,7 @@ func (w *Watcher) Close() error {
 // Add starts watching the named file or directory (non-recursively).
 func (w *Watcher) Add(name string) error {
 	if w.isClosed {
+		w.mu.Unlock()
 		return errors.New("watcher already closed")
 	}
 	in := &input{
