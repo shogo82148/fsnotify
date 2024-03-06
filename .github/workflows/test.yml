@@ -42,19 +42,42 @@ jobs:
         run: |
           go test --race ./...
 
-  testFreeBSD:
-    runs-on: macos-10.15
-    name: test (freebsd, 1.17)
+  # OpenBSD
+  openbsd:
+    runs-on: "ubuntu-22.04"
+    timeout-minutes: 30
+    name: "test (openbsd, 1.21)"
     steps:
-      - uses: actions/checkout@v4
-      - name: test (freebsd, 1.17)
-        id: test
-        uses: vmactions/freebsd-vm@v0.1.6
+      - uses: "actions/checkout@v3"
+      - name: "test (openbsd, 1.21)"
+        id: "openbsd"
+        uses: "vmactions/openbsd-vm@v1"
         with:
-          usesh: true
-          prepare: pkg install -y go
+          prepare: pkg_add go
           run: |
-            go test
+            go version
+            useradd -mG wheel action
+            FSNOTIFY_BUFFER=4096 su action -c 'go test -parallel 1 -race ./...'
+                                 su action -c 'go test -parallel 1 -race ./...'
+
+  # NetBSD
+  # TODO: fix me
+  # netbsd:
+  #   runs-on: "ubuntu-22.04"
+  #   timeout-minutes: 30
+  #   name: test (netbsd, 1.21)
+  #   steps:
+  #     - uses: "actions/checkout@v3"
+  #     - name: "test (netbsd, 1.21)"
+  #       id: "netbsd"
+  #       uses: "vmactions/netbsd-vm@v1"
+  #       with:
+  #         prepare: pkg_add go
+  #         run: |
+  #           go121 version
+  #           useradd -mG wheel action
+  #           FSNOTIFY_BUFFER=4096 su action -c 'go121 test -parallel 1 -race ./...'
+  #                                su action -c 'go121 test -parallel 1 -race ./...'
 
   lint:
     runs-on: ubuntu-latest
