@@ -44,7 +44,8 @@ func (c *counter) reset() {
 
 // tempMkdir makes a temporary directory
 func tempMkdir(t *testing.T) string {
-	dir, err := ioutil.TempDir("", "fsnotify")
+	t.Helper()
+	dir, err := os.MkdirTemp("", "fsnotify")
 	if err != nil {
 		t.Fatalf("failed to create test directory: %s", err)
 	}
@@ -53,7 +54,8 @@ func tempMkdir(t *testing.T) string {
 
 // tempMkFile makes a temporary file.
 func tempMkFile(t *testing.T, dir string) string {
-	f, err := ioutil.TempFile(dir, "fsnotify")
+	t.Helper()
+	f, err := os.CreateTemp(dir, "fsnotify")
 	if err != nil {
 		t.Fatalf("failed to create test file: %v", err)
 	}
