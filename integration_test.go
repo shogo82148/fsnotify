@@ -8,7 +8,6 @@
 package fsnotify
 
 import (
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path"
@@ -1133,7 +1132,7 @@ func TestCyclicSymlink(t *testing.T) {
 	// no way for us to get events on symlinks themselves, because opening them
 	// opens an fd to the file to which they point.
 
-	if err := ioutil.WriteFile(link, []byte("foo"), 0700); err != nil {
+	if err := os.WriteFile(link, []byte("foo"), 0700); err != nil {
 		t.Fatalf("could not make symlink: %v", err)
 	}
 
