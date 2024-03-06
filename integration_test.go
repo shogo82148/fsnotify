@@ -471,6 +471,8 @@ func TestClose(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
+	t.Parallel()
+
 	t.Run("works", func(t *testing.T) {
 		t.Parallel()
 
