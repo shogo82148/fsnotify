@@ -69,12 +69,15 @@ func (w *Watcher) isClosed() bool {
 
 // Close removes all watches and closes the events channel.
 func (w *Watcher) Close() error {
+	w.mu.Lock()
 	if w.isClosed() {
+		w.mu.Unlock()
 		return nil
 	}
 
 	// Send 'close' signal to goroutine, and set the Watcher to closed.
 	close(w.done)
+	w.mu.Unlock()
 
 	// Causes any blocking reads to return with an error, provided the file still supports deadline operations
 	err := w.inotifyFile.Close()
