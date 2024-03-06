@@ -521,3 +521,18 @@ func TestRemove(t *testing.T) {
 		}
 	})
 }
+
+// Make sure Close() doesn't race; hard to write a good reproducible test for
+// this, but running it 150 times seems to reproduce it in ~75% of cases and
+// isn't too slow (~0.06s on my system).
+func TestCloseRace(t *testing.T) {
+	for i := 0; i < 150; i++ {
+		w, err := NewWatcher()
+		if err != nil {
+			t.Fatal(err)
+		}
+		go w.Close()
+		go w.Close()
+		go w.Close()
+	}
+}
