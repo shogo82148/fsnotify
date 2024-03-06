@@ -9,7 +9,7 @@ package fsnotify
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -18,35 +18,9 @@ import (
 	"time"
 )
 
-// An atomic counter
-type counter struct {
-	val int32
-}
-
-func (c *counter) increment() {
-	atomic.AddInt32(&c.val, 1)
-}
-
-func (c *counter) value() int32 {
-	return atomic.LoadInt32(&c.val)
-}
-
-func (c *counter) reset() {
-	atomic.StoreInt32(&c.val, 0)
-}
-
-// tempMkdir makes a temporary directory
-func tempMkdir(t *testing.T) string {
-	dir, err := ioutil.TempDir("", "fsnotify")
-	if err != nil {
-		t.Fatalf("failed to create test directory: %s", err)
-	}
-	return dir
-}
-
 // tempMkFile makes a temporary file.
 func tempMkFile(t *testing.T, dir string) string {
-	f, err := ioutil.TempFile(dir, "fsnotify")
+	f, err := os.CreateTemp(dir, "fsnotify")
 	if err != nil {
 		t.Fatalf("failed to create test file: %v", err)
 	}
