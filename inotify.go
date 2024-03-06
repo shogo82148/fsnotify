@@ -11,7 +11,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"os"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -294,7 +293,7 @@ func (w *Watcher) readEvents() {
 			event := newEvent(name, mask)
 
 			// Send the events that are not ignored on the events channel
-			if !event.ignoreLinux(mask) {
+			if mask&unix.IN_IGNORED == 0 {
 				select {
 				case w.Events <- event:
 				case <-w.done:
@@ -306,27 +305,6 @@ func (w *Watcher) readEvents() {
 			offset += unix.SizeofInotifyEvent + nameLen
 		}
 	}
-}
-
-// Certain types of events can be "ignored" and not sent over the Events
-// channel. Such as events marked ignore by the kernel, or MODIFY events
-// against files that do not exist.
-func (e *Event) ignoreLinux(mask uint32) bool {
-	// Ignore anything the inotify API says to ignore
-	if mask&unix.IN_IGNORED == unix.IN_IGNORED {
-		return true
-	}
-
-	// If the event is Create or Write, the file must exist, or the
-	// event will be suppressed.
-	// *Note*: this was put in place because it was seen that a Write
-	// event was sent after the Remove. This ignores the Write and
-	// assumes a Remove will come or has come if the file doesn't exist.
-	if e.Op&Create != 0 || e.Op&Write != 0 {
-		_, statErr := os.Lstat(e.Name)
-		return os.IsNotExist(statErr)
-	}
-	return false
 }
 
 // newEvent returns an platform-independent Event based on an inotify mask.
