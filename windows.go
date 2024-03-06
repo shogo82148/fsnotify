@@ -70,10 +70,12 @@ func (w *Watcher) Close() error {
 
 // Add starts watching the named file or directory (non-recursively).
 func (w *Watcher) Add(name string) error {
+	w.mu.Lock()
 	if w.isClosed {
 		w.mu.Unlock()
 		return errors.New("watcher already closed")
 	}
+	w.mu.Unlock()
 	in := &input{
 		op:    opAddWatch,
 		path:  filepath.Clean(name),
