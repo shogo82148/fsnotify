@@ -316,7 +316,7 @@ func (w *Watcher) remWatch(pathname string) error {
 	watch := w.watches.get(ino)
 	w.mu.Unlock()
 	if watch == nil {
-		return fmt.Errorf("can't remove non-existent watch for: %s", pathname)
+		return fmt.Errorf("%w: %s", ErrNonExistentWatch, pathname)
 	}
 	if pathname == dir {
 		w.sendEvent(watch.path, watch.mask&sysFSIGNORED)
