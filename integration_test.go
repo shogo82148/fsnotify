@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"sync/atomic"
 	"testing"
+	"time"
 )
 
 // An atomic counter
@@ -74,6 +75,58 @@ func TestWatch(t *testing.T) {
 				create  /file
 				write   /file
 				write   /file
+			`,
+		},
+		{
+			"dir only",
+			func(t *testing.T, w *Watcher, tempDir string) {
+				beforeWatch := filepath.Join(tempDir, "beforeWatch")
+				file := filepath.Join(tempDir, "file")
+
+				touch(t, beforeWatch)
+				addWatch(t, w, tempDir)
+
+				cat(t, "data", file)
+				rm(t, file)
+				rm(t, beforeWatch)
+			},
+			`
+				create /file
+				write  /file
+				remove /file
+				remove /beforeWatch
+			`,
+		},
+		{
+			"subdir",
+			func(t *testing.T, w *Watcher, tempDir string) {
+				addWatch(t, w, tempDir)
+
+				file := filepath.Join(tempDir, "file")
+				dir := filepath.Join(tempDir, "sub")
+				dirfile := filepath.Join(tempDir, "sub", "file2")
+
+				mkdir(t, dir)     // Create sub-directory
+				touch(t, file)    // Create a file
+				touch(t, dirfile) // Create a file (Should not see this! we are not watching subdir)
+				time.Sleep(200 * time.Millisecond)
+				rmAll(t, dir) // Make sure receive deletes for both file and sub-directory
+				rm(t, file)
+			},
+			`
+				create /sub
+				create /file
+				remove /sub
+				remove /file
+
+				# Windows includes a write for the /sub dir too, two of them even(?)
+				windows:
+					create /sub
+					create /file
+					write  /sub
+					write  /sub
+					remove /sub
+					remove /file
 			`,
 		},
 	}
