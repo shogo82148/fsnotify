@@ -8,9 +8,13 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
+          - ubuntu-20.04
+          - ubuntu-22.04
+          - macos-13
+          - macos-12
+          - macos-11
+          - windows-2022
+          - windows-2019
         go:
           - "1.22"
           - "1.21"
