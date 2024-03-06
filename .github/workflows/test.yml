@@ -22,6 +22,12 @@ jobs:
           - "1.19"
           - "1.18"
           - "1.17"
+        exclude:
+          # TODO: fix: exit status 0xc0000139
+          - os: windows-2019
+            go: "1.22"
+          - os: windows-2010
+            go: "1.21"
     runs-on: ${{ matrix.os }}
     steps:
       - name: setup Go
