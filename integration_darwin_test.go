@@ -41,10 +41,10 @@ func testExchangedataForWatcher(t *testing.T, watchDir bool) {
 	}
 
 	// Create directory to watch
-	testDir1 := tempMkdir(t)
+	testDir1 := t.TempDir()
 
 	// For the intermediate file
-	testDir2 := tempMkdir(t)
+	testDir2 := t.TempDir()
 
 	defer os.RemoveAll(testDir1)
 	defer os.RemoveAll(testDir2)

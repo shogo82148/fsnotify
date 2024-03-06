@@ -48,8 +48,7 @@ func TestInotifyCloseSlightlyLater(t *testing.T) {
 }
 
 func TestInotifyCloseSlightlyLaterWithWatch(t *testing.T) {
-	testDir := tempMkdir(t)
-	defer os.RemoveAll(testDir)
+	testDir := t.TempDir()
 
 	w, err := NewWatcher()
 	if err != nil {
@@ -67,8 +66,7 @@ func TestInotifyCloseSlightlyLaterWithWatch(t *testing.T) {
 }
 
 func TestInotifyCloseAfterRead(t *testing.T) {
-	testDir := tempMkdir(t)
-	defer os.RemoveAll(testDir)
+	testDir := t.TempDir()
 
 	w, err := NewWatcher()
 	if err != nil {
@@ -113,8 +111,7 @@ func isWatcherReallyClosed(t *testing.T, w *Watcher) {
 }
 
 func TestInotifyCloseCreate(t *testing.T) {
-	testDir := tempMkdir(t)
-	defer os.RemoveAll(testDir)
+	testDir := t.TempDir()
 
 	w, err := NewWatcher()
 	if err != nil {
@@ -161,8 +158,7 @@ func TestInotifyCloseCreate(t *testing.T) {
 func TestInotifyStress(t *testing.T) {
 	maxNumToCreate := 1000
 
-	testDir := tempMkdir(t)
-	defer os.RemoveAll(testDir)
+	testDir := t.TempDir()
 	testFilePrefix := filepath.Join(testDir, "testfile")
 
 	w, err := NewWatcher()
@@ -275,8 +271,7 @@ func TestInotifyStress(t *testing.T) {
 }
 
 func TestInotifyRemoveTwice(t *testing.T) {
-	testDir := tempMkdir(t)
-	defer os.RemoveAll(testDir)
+	testDir := t.TempDir()
 	testFile := filepath.Join(testDir, "testfile")
 
 	handle, err := os.Create(testFile)
@@ -319,8 +314,7 @@ func TestInotifyRemoveTwice(t *testing.T) {
 }
 
 func TestInotifyInnerMapLength(t *testing.T) {
-	testDir := tempMkdir(t)
-	defer os.RemoveAll(testDir)
+	testDir := t.TempDir()
 	testFile := filepath.Join(testDir, "testfile")
 
 	handle, err := os.Create(testFile)
@@ -375,8 +369,7 @@ func TestInotifyOverflow(t *testing.T) {
 	numDirs := 128
 	numFiles := 1024
 
-	testDir := tempMkdir(t)
-	defer os.RemoveAll(testDir)
+	testDir := t.TempDir()
 
 	w, err := NewWatcher()
 	if err != nil {
@@ -464,8 +457,7 @@ func TestInotifyOverflow(t *testing.T) {
 }
 
 func TestInotifyWatchList(t *testing.T) {
-	testDir := tempMkdir(t)
-	defer os.RemoveAll(testDir)
+	testDir := t.TempDir()
 	testFile := filepath.Join(testDir, "testfile")
 
 	handle, err := os.Create(testFile)
@@ -501,7 +493,7 @@ func TestInotifyWatchList(t *testing.T) {
 }
 
 func TestInotifyDeleteOpenedFile(t *testing.T) {
-	testDir := tempMkdir(t)
+	testDir := t.TempDir()
 	defer os.RemoveAll(testDir)
 
 	testFile := filepath.Join(testDir, "testfile")
