@@ -19,13 +19,13 @@ jobs:
           - arm64
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
       - name: setup Go
         uses: actions/setup-go@v5
         with:
           go-version: "1.22"
-
-      - name: checkout
-        uses: actions/checkout@v4
 
       - name: build-${{ matrix.goos }}-${{ matrix.goarch }}
         run: |
