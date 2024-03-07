@@ -46,7 +46,7 @@ jobs:
     timeout-minutes: 30
     name: "test (openbsd, 1.21)"
     steps:
-      - uses: "actions/checkout@v3"
+      - uses: "actions/checkout@v4"
       - name: "test (openbsd, 1.21)"
         id: "openbsd"
         uses: "vmactions/openbsd-vm@v1"
@@ -64,7 +64,7 @@ jobs:
     timeout-minutes: 30
     name: test (netbsd, 1.21)
     steps:
-      - uses: "actions/checkout@v3"
+      - uses: "actions/checkout@v4"
       - name: "test (netbsd, 1.21)"
         id: "netbsd"
         uses: "vmactions/netbsd-vm@v1"
