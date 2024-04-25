@@ -96,7 +96,7 @@ jobs:
           go vet ./...
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@v5
         continue-on-error: true
         with:
           version: latest
