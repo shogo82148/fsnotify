@@ -29,10 +29,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.4.0
 
       - name: setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v5.6.0
         with:
           go-version: ${{ matrix.go }}
 
@@ -46,10 +46,10 @@ jobs:
     timeout-minutes: 30
     name: "test (openbsd, 1.21)"
     steps:
-      - uses: "actions/checkout@v4"
+      - uses: "actions/checkout@v4.4.0"
       - name: "test (openbsd, 1.21)"
         id: "openbsd"
-        uses: "vmactions/openbsd-vm@v1"
+        uses: "vmactions/openbsd-vm@v1.4.9"
         with:
           prepare: pkg_add go
           run: |
@@ -64,10 +64,10 @@ jobs:
     timeout-minutes: 30
     name: test (netbsd, 1.21)
     steps:
-      - uses: "actions/checkout@v4"
+      - uses: "actions/checkout@v4.4.0"
       - name: "test (netbsd, 1.21)"
         id: "netbsd"
-        uses: "vmactions/netbsd-vm@v1"
+        uses: "vmactions/netbsd-vm@v1.5.2"
         with:
           prepare: pkg_add go
           run: |
@@ -80,10 +80,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.4.0
 
       - name: setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v5.6.0
         with:
           go-version: "1.22"
 
@@ -96,7 +96,7 @@ jobs:
           go vet ./...
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v6.5.2
         continue-on-error: true
         with:
           version: latest
